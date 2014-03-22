@@ -48,7 +48,6 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     HYDElementCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HYDElementCell class]) forIndexPath:indexPath];
-    
     [self configureCell:cell forIndexPath:indexPath];
     
     return cell;
@@ -82,6 +81,12 @@
     CGFloat height = [element spanY] * [self columnWidthForCustomGridLayout:layout];
     
     return CGSizeMake(width, height);
+}
+
+- (id)customGridLayout:(HYDCustomGridLayout *)layout gridCellIdentifierForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    HYDElement *element = self.elements[indexPath.item];
+    return @(element.elementNo);
 }
 
 #pragma mark - Private methods

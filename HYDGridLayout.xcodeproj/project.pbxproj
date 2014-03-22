@@ -26,6 +26,7 @@
 		A9B30B7818DBFEE2007CFA16 /* HYDCustomGridLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B30B7718DBFEE2007CFA16 /* HYDCustomGridLayout.m */; };
 		A9B476E118DD301700A0AA36 /* HYDElementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B476E018DD301700A0AA36 /* HYDElementCell.m */; };
 		A9B476E318DD303500A0AA36 /* HYDElementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B476E218DD303500A0AA36 /* HYDElementCell.xib */; };
+		A9B476E618DD488200A0AA36 /* HYDGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B476E518DD488200A0AA36 /* HYDGrid.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,8 @@
 		A9B476DF18DD301700A0AA36 /* HYDElementCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDElementCell.h; sourceTree = "<group>"; };
 		A9B476E018DD301700A0AA36 /* HYDElementCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDElementCell.m; sourceTree = "<group>"; };
 		A9B476E218DD303500A0AA36 /* HYDElementCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HYDElementCell.xib; sourceTree = "<group>"; };
+		A9B476E418DD488200A0AA36 /* HYDGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDGrid.h; sourceTree = "<group>"; };
+		A9B476E518DD488200A0AA36 /* HYDGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDGrid.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +130,8 @@
 			children = (
 				A9B30B4918DBE5F4007CFA16 /* HYDAppDelegate.h */,
 				A9B30B4A18DBE5F4007CFA16 /* HYDAppDelegate.m */,
+				A9B476E418DD488200A0AA36 /* HYDGrid.h */,
+				A9B476E518DD488200A0AA36 /* HYDGrid.m */,
 				A9B30B6D18DBE632007CFA16 /* Models */,
 				A9B30B6B18DBE621007CFA16 /* Views */,
 				A9B30B6C18DBE62B007CFA16 /* Controller */,
@@ -297,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9B30B7018DBE6F0007CFA16 /* HYDElement.m in Sources */,
+				A9B476E618DD488200A0AA36 /* HYDGrid.m in Sources */,
 				A9B30B7518DBF181007CFA16 /* HYDCustomGridViewController.m in Sources */,
 				A9B30B4B18DBE5F4007CFA16 /* HYDAppDelegate.m in Sources */,
 				A9B30B7818DBFEE2007CFA16 /* HYDCustomGridLayout.m in Sources */,

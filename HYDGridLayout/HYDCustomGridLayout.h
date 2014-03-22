@@ -25,6 +25,7 @@
 - (UIEdgeInsets)marginForCustomGridLayout:(HYDCustomGridLayout *)layout;
 
 - (CGSize)customGridLayout:(HYDCustomGridLayout *)layout sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (id)customGridLayout:(HYDCustomGridLayout *)layout gridCellIdentifierForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
