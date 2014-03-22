@@ -19,6 +19,13 @@
 		A9B30B5618DBE5F4007CFA16 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9B30B3E18DBE5F4007CFA16 /* UIKit.framework */; };
 		A9B30B5E18DBE5F4007CFA16 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A9B30B5C18DBE5F4007CFA16 /* InfoPlist.strings */; };
 		A9B30B6018DBE5F4007CFA16 /* HYDGridLayoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B30B5F18DBE5F4007CFA16 /* HYDGridLayoutTests.m */; };
+		A9B30B6A18DBE61D007CFA16 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9B30B6918DBE61D007CFA16 /* Storyboard.storyboard */; };
+		A9B30B7018DBE6F0007CFA16 /* HYDElement.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B30B6F18DBE6F0007CFA16 /* HYDElement.m */; };
+		A9B30B7218DBE828007CFA16 /* periodictabledump.csv in Resources */ = {isa = PBXBuildFile; fileRef = A9B30B7118DBE828007CFA16 /* periodictabledump.csv */; };
+		A9B30B7518DBF181007CFA16 /* HYDCustomGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B30B7418DBF181007CFA16 /* HYDCustomGridViewController.m */; };
+		A9B30B7818DBFEE2007CFA16 /* HYDCustomGridLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B30B7718DBFEE2007CFA16 /* HYDCustomGridLayout.m */; };
+		A9B476E118DD301700A0AA36 /* HYDElementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B476E018DD301700A0AA36 /* HYDElementCell.m */; };
+		A9B476E318DD303500A0AA36 /* HYDElementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B476E218DD303500A0AA36 /* HYDElementCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +55,17 @@
 		A9B30B5B18DBE5F4007CFA16 /* HYDGridLayoutTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HYDGridLayoutTests-Info.plist"; sourceTree = "<group>"; };
 		A9B30B5D18DBE5F4007CFA16 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A9B30B5F18DBE5F4007CFA16 /* HYDGridLayoutTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HYDGridLayoutTests.m; sourceTree = "<group>"; };
+		A9B30B6918DBE61D007CFA16 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		A9B30B6E18DBE6F0007CFA16 /* HYDElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDElement.h; sourceTree = "<group>"; };
+		A9B30B6F18DBE6F0007CFA16 /* HYDElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDElement.m; sourceTree = "<group>"; };
+		A9B30B7118DBE828007CFA16 /* periodictabledump.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = periodictabledump.csv; sourceTree = "<group>"; };
+		A9B30B7318DBF181007CFA16 /* HYDCustomGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDCustomGridViewController.h; sourceTree = "<group>"; };
+		A9B30B7418DBF181007CFA16 /* HYDCustomGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDCustomGridViewController.m; sourceTree = "<group>"; };
+		A9B30B7618DBFEE2007CFA16 /* HYDCustomGridLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDCustomGridLayout.h; sourceTree = "<group>"; };
+		A9B30B7718DBFEE2007CFA16 /* HYDCustomGridLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDCustomGridLayout.m; sourceTree = "<group>"; };
+		A9B476DF18DD301700A0AA36 /* HYDElementCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDElementCell.h; sourceTree = "<group>"; };
+		A9B476E018DD301700A0AA36 /* HYDElementCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDElementCell.m; sourceTree = "<group>"; };
+		A9B476E218DD303500A0AA36 /* HYDElementCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HYDElementCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +127,9 @@
 			children = (
 				A9B30B4918DBE5F4007CFA16 /* HYDAppDelegate.h */,
 				A9B30B4A18DBE5F4007CFA16 /* HYDAppDelegate.m */,
+				A9B30B6D18DBE632007CFA16 /* Models */,
+				A9B30B6B18DBE621007CFA16 /* Views */,
+				A9B30B6C18DBE62B007CFA16 /* Controller */,
 				A9B30B4C18DBE5F4007CFA16 /* Images.xcassets */,
 				A9B30B4118DBE5F4007CFA16 /* Supporting Files */,
 			);
@@ -118,6 +139,7 @@
 		A9B30B4118DBE5F4007CFA16 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A9B30B7118DBE828007CFA16 /* periodictabledump.csv */,
 				A9B30B4218DBE5F4007CFA16 /* HYDGridLayout-Info.plist */,
 				A9B30B4318DBE5F4007CFA16 /* InfoPlist.strings */,
 				A9B30B4618DBE5F4007CFA16 /* main.m */,
@@ -142,6 +164,37 @@
 				A9B30B5C18DBE5F4007CFA16 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A9B30B6B18DBE621007CFA16 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A9B30B6918DBE61D007CFA16 /* Storyboard.storyboard */,
+				A9B30B7618DBFEE2007CFA16 /* HYDCustomGridLayout.h */,
+				A9B30B7718DBFEE2007CFA16 /* HYDCustomGridLayout.m */,
+				A9B476DF18DD301700A0AA36 /* HYDElementCell.h */,
+				A9B476E018DD301700A0AA36 /* HYDElementCell.m */,
+				A9B476E218DD303500A0AA36 /* HYDElementCell.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		A9B30B6C18DBE62B007CFA16 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A9B30B7318DBF181007CFA16 /* HYDCustomGridViewController.h */,
+				A9B30B7418DBF181007CFA16 /* HYDCustomGridViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		A9B30B6D18DBE632007CFA16 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A9B30B6E18DBE6F0007CFA16 /* HYDElement.h */,
+				A9B30B6F18DBE6F0007CFA16 /* HYDElement.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,8 +273,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9B476E318DD303500A0AA36 /* HYDElementCell.xib in Resources */,
+				A9B30B7218DBE828007CFA16 /* periodictabledump.csv in Resources */,
 				A9B30B4518DBE5F4007CFA16 /* InfoPlist.strings in Resources */,
 				A9B30B4D18DBE5F4007CFA16 /* Images.xcassets in Resources */,
+				A9B30B6A18DBE61D007CFA16 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,7 +296,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9B30B7018DBE6F0007CFA16 /* HYDElement.m in Sources */,
+				A9B30B7518DBF181007CFA16 /* HYDCustomGridViewController.m in Sources */,
 				A9B30B4B18DBE5F4007CFA16 /* HYDAppDelegate.m in Sources */,
+				A9B30B7818DBFEE2007CFA16 /* HYDCustomGridLayout.m in Sources */,
+				A9B476E118DD301700A0AA36 /* HYDElementCell.m in Sources */,
 				A9B30B4718DBE5F4007CFA16 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -438,6 +498,7 @@
 				A9B30B6518DBE5F4007CFA16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A9B30B6618DBE5F4007CFA16 /* Build configuration list for PBXNativeTarget "HYDGridLayoutTests" */ = {
 			isa = XCConfigurationList;
@@ -446,6 +507,7 @@
 				A9B30B6818DBE5F4007CFA16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
