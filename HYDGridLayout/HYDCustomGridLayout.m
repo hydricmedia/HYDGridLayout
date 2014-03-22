@@ -65,7 +65,20 @@
         CGSize itemSize = [self sizeForItemAtIndexPath:indexPath];
         CGPoint origin  = [self originForItemAtIndexPath:indexPath];
         
-        HYDGridReference gridRef = [self.grid addItem];
+        id identifier;
+        if ([self.delegate respondsToSelector:@selector(customGridLayout:gridCellIdentifierForItemAtIndexPath:)]) {
+            identifier = [self.delegate customGridLayout:self gridCellIdentifierForItemAtIndexPath:indexPath];
+        }
+        NSUInteger spanX;
+        if ([self.delegate respondsToSelector:@selector(customGridLayout:spanXForItemAtIndexPath:)]) {
+            spanX = [self.delegate customGridLayout:self spanXForItemAtIndexPath:indexPath];
+        }
+        
+        HYDGridRef gridRef = [self.grid addItem:identifier withSpanX:spanX andSpanY:1 completion:^(BOOL itemAdded) {
+            if (!itemAdded) {
+                
+            }
+        }];
         
         //Work out the origin from the origin grid ref
         

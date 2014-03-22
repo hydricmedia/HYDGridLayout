@@ -135,8 +135,8 @@
 				A9B30B6D18DBE632007CFA16 /* Models */,
 				A9B30B6B18DBE621007CFA16 /* Views */,
 				A9B30B6C18DBE62B007CFA16 /* Controller */,
-				A9B30B4C18DBE5F4007CFA16 /* Images.xcassets */,
 				A9B30B4118DBE5F4007CFA16 /* Supporting Files */,
+				A9B30B4C18DBE5F4007CFA16 /* Images.xcassets */,
 			);
 			path = HYDGridLayout;
 			sourceTree = "<group>";

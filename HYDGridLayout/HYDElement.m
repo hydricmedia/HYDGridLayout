@@ -50,7 +50,8 @@
 }
 
 - (NSUInteger)itemSpanY {
-    return (self.elementNo %3 == 0) ? 2 : 1;
+//    return (self.elementNo %3 == 0) ? 2 : 1;
+    return 1;
 }
 
 @end

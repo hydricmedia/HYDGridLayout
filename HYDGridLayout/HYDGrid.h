@@ -8,18 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-struct HYDGridRef {
+typedef struct {
     NSUInteger x;
     NSUInteger y;
-};
+} HYDGridRef;
 
-typedef struct HYDGridRef HYDGridReference;
+typedef void (^addItemCompletion)(BOOL itemAdded);
 
 @interface HYDGrid : NSObject
 
 - (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns;
-- (id)identifierForGridRef:(HYDGridReference)gridRef;
-- (HYDGridReference)addItem:(id)identifier withSpanX:(NSUInteger)spanX andSpanY:(NSUInteger)spanY;
+- (id)identifierForGridRef:(HYDGridRef)gridRef;
+- (HYDGridRef)addItem:(id)identifier withSpanX:(NSUInteger)spanX andSpanY:(NSUInteger)spanY completion:(addItemCompletion)completionBlock;
 - (void)addGridRow;
 
 @end
