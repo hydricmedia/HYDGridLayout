@@ -24,6 +24,8 @@
     
     [self createElements];
     [self registerNibs];
+    
+    self.layout.delegate = self;
 }
 
 #pragma mark - Accessors
@@ -59,7 +61,11 @@
 }
 
 - (CGFloat)columnWidthForCustomGridLayout:(HYDCustomGridLayout *)layout {
-    return 80.f;
+    if (IPHONE) {
+        return 80.f;
+    } else {
+        return 196.f;
+    }
 }
 
 - (CGFloat)minInterItemSpacingVerticalForCustomGridLayout:(HYDCustomGridLayout *)layout {
@@ -74,19 +80,20 @@
     return UIEdgeInsetsMake(0.f, 0.f, 0.f, 0.f);
 }
 
-- (CGSize)customGridLayout:(HYDCustomGridLayout *)layout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    HYDElement *element = self.elements[indexPath.item];
-    CGFloat width = [element spanX] * [self columnWidthForCustomGridLayout:layout];
-    CGFloat height = [element spanY] * [self columnWidthForCustomGridLayout:layout];
-    
-    return CGSizeMake(width, height);
-}
-
 - (id)customGridLayout:(HYDCustomGridLayout *)layout gridCellIdentifierForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     HYDElement *element = self.elements[indexPath.item];
     return @(element.elementNo);
+}
+
+- (NSUInteger)customGridLayout:(HYDCustomGridLayout *)layout spanXForItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    HYDElement *element = self.elements[indexPath.item];
+    return element.spanX;
+}
+
+- (NSUInteger)customGridLayout:(HYDCustomGridLayout *)layout spanYForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return 1;
 }
 
 #pragma mark - Private methods

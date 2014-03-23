@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A9A7019818DE923900B3A4FE /* Storyboard-iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9A7019718DE923900B3A4FE /* Storyboard-iPad.storyboard */; };
+		A9A7019D18DEA09200B3A4FE /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A7019C18DEA09200B3A4FE /* Reveal.framework */; };
 		A9B30B3B18DBE5F4007CFA16 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9B30B3A18DBE5F4007CFA16 /* Foundation.framework */; };
 		A9B30B3D18DBE5F4007CFA16 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9B30B3C18DBE5F4007CFA16 /* CoreGraphics.framework */; };
 		A9B30B3F18DBE5F4007CFA16 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9B30B3E18DBE5F4007CFA16 /* UIKit.framework */; };
@@ -40,6 +42,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A9A7019718DE923900B3A4FE /* Storyboard-iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Storyboard-iPad.storyboard"; sourceTree = "<group>"; };
+		A9A7019918DE932100B3A4FE /* HYD-Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HYD-Macros.h"; sourceTree = "<group>"; };
+		A9A7019C18DEA09200B3A4FE /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		A9B30B3718DBE5F4007CFA16 /* HYDGridLayout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HYDGridLayout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9B30B3A18DBE5F4007CFA16 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A9B30B3C18DBE5F4007CFA16 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -79,6 +84,7 @@
 				A9B30B3D18DBE5F4007CFA16 /* CoreGraphics.framework in Frameworks */,
 				A9B30B3F18DBE5F4007CFA16 /* UIKit.framework in Frameworks */,
 				A9B30B3B18DBE5F4007CFA16 /* Foundation.framework in Frameworks */,
+				A9A7019D18DEA09200B3A4FE /* Reveal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,9 +101,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A9A7019618DE91EA00B3A4FE /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
 		A9B30B2E18DBE5F4007CFA16 = {
 			isa = PBXGroup;
 			children = (
+				A9A7019C18DEA09200B3A4FE /* Reveal.framework */,
 				A9B30B4018DBE5F4007CFA16 /* HYDGridLayout */,
 				A9B30B5918DBE5F4007CFA16 /* HYDGridLayoutTests */,
 				A9B30B3918DBE5F4007CFA16 /* Frameworks */,
@@ -128,6 +142,7 @@
 		A9B30B4018DBE5F4007CFA16 /* HYDGridLayout */ = {
 			isa = PBXGroup;
 			children = (
+				A9A7019618DE91EA00B3A4FE /* iPad */,
 				A9B30B4918DBE5F4007CFA16 /* HYDAppDelegate.h */,
 				A9B30B4A18DBE5F4007CFA16 /* HYDAppDelegate.m */,
 				A9B476E418DD488200A0AA36 /* HYDGrid.h */,
@@ -149,6 +164,7 @@
 				A9B30B4318DBE5F4007CFA16 /* InfoPlist.strings */,
 				A9B30B4618DBE5F4007CFA16 /* main.m */,
 				A9B30B4818DBE5F4007CFA16 /* HYDGridLayout-Prefix.pch */,
+				A9A7019918DE932100B3A4FE /* HYD-Macros.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -175,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				A9B30B6918DBE61D007CFA16 /* Storyboard.storyboard */,
+				A9A7019718DE923900B3A4FE /* Storyboard-iPad.storyboard */,
 				A9B30B7618DBFEE2007CFA16 /* HYDCustomGridLayout.h */,
 				A9B30B7718DBFEE2007CFA16 /* HYDCustomGridLayout.m */,
 				A9B476DF18DD301700A0AA36 /* HYDElementCell.h */,
@@ -281,6 +298,7 @@
 				A9B476E318DD303500A0AA36 /* HYDElementCell.xib in Resources */,
 				A9B30B7218DBE828007CFA16 /* periodictabledump.csv in Resources */,
 				A9B30B4518DBE5F4007CFA16 /* InfoPlist.strings in Resources */,
+				A9A7019818DE923900B3A4FE /* Storyboard-iPad.storyboard in Resources */,
 				A9B30B4D18DBE5F4007CFA16 /* Images.xcassets in Resources */,
 				A9B30B6A18DBE61D007CFA16 /* Storyboard.storyboard in Resources */,
 			);
@@ -424,10 +442,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HYDGridLayout/HYDGridLayout-Prefix.pch";
 				INFOPLIST_FILE = "HYDGridLayout/HYDGridLayout-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -437,10 +461,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HYDGridLayout/HYDGridLayout-Prefix.pch";
 				INFOPLIST_FILE = "HYDGridLayout/HYDGridLayout-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

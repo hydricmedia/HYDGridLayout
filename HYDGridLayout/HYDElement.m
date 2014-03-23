@@ -31,6 +31,8 @@
         _elementWeight = [[array[1] stringByTrimmingCharactersInSet:charSet] floatValue];
         _elementName = [array[2] stringByTrimmingCharactersInSet:charSet];
         _elementSymbol = [array[3] stringByTrimmingCharactersInSet:charSet];
+        _spanX = [self itemSpanX];
+        _spanY = [self itemSpanY];
     }
     
     return self;

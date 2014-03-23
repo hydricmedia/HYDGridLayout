@@ -13,13 +13,14 @@ typedef struct {
     NSUInteger y;
 } HYDGridRef;
 
-typedef void (^addItemCompletion)(BOOL itemAdded);
+typedef NSNumber HYDRowNumber;
 
 @interface HYDGrid : NSObject
 
 - (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns;
 - (id)identifierForGridRef:(HYDGridRef)gridRef;
-- (HYDGridRef)addItem:(id)identifier withSpanX:(NSUInteger)spanX andSpanY:(NSUInteger)spanY completion:(addItemCompletion)completionBlock;
-- (void)addGridRow;
+- (HYDGridRef)addItem:(id)identifier withSpanX:(NSUInteger)spanX andSpanY:(NSUInteger)spanY;
+- (HYDRowNumber *)addNewRow;
+- (NSUInteger)numberOfRowsInGrid;
 
 @end

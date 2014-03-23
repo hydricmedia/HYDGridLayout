@@ -24,10 +24,10 @@
 - (CGFloat)minInterItemSpacingHorizontalForCustomGridLayout:(HYDCustomGridLayout *)layout;
 - (UIEdgeInsets)marginForCustomGridLayout:(HYDCustomGridLayout *)layout;
 
-- (CGSize)customGridLayout:(HYDCustomGridLayout *)layout sizeForItemAtIndexPath:(NSIndexPath *)indexPath; //Need this??
+- (id)customGridLayout:(HYDCustomGridLayout *)layout gridCellIdentifierForItemAtIndexPath:(NSIndexPath *)indexPath;
 - (NSUInteger)customGridLayout:(HYDCustomGridLayout *)layout spanXForItemAtIndexPath:(NSIndexPath *)indexPath;
 - (NSUInteger)customGridLayout:(HYDCustomGridLayout *)layout spanYForItemAtIndexPath:(NSIndexPath *)indexPath;
-- (id)customGridLayout:(HYDCustomGridLayout *)layout gridCellIdentifierForItemAtIndexPath:(NSIndexPath *)indexPath;
+
 
 @end
 

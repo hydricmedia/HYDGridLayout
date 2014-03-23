@@ -12,8 +12,12 @@
 @interface HYDCustomGridLayout ()
 
 @property (nonatomic, strong) HYDGrid *grid;
+@property (nonatomic, assign) CGFloat gridWidth; //should be part of grid
+@property (nonatomic, assign) CGFloat columnWidth;
+
 @property (nonatomic, assign) NSUInteger numberOfRows;
 @property (nonatomic, assign) NSUInteger numberOfColumns;
+
 @property (nonatomic, strong) NSMutableDictionary *layoutInfo;
 
 @end
@@ -43,49 +47,72 @@
 }
 
 #pragma mark - Accessors
+
+- (NSMutableDictionary *)layoutInfo {
+    
+    if (!_layoutInfo) {
+        _layoutInfo = [NSMutableDictionary new];
+    }
+    
+    return _layoutInfo;
+}
+
+
 - (HYDGrid *)grid {
     if (!_grid) {
-        _grid = [[HYDGrid alloc] initWithNumberOfColumns:[self numberOfColumns]];
+        _grid = [[HYDGrid alloc] initWithNumberOfColumns:self.numberOfColumns];
     }
     
     return _grid;
+}
+
+- (NSUInteger)numberOfColumns {
+    
+    NSUInteger numColumns = 0;
+    
+    if ([self.delegate respondsToSelector:@selector(columnWidthForCustomGridLayout:)]) {
+        self.columnWidth = [self.delegate columnWidthForCustomGridLayout:self];
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(gridWidthForCustomGridLayout:)]) {
+        self.gridWidth = [self.delegate gridWidthForCustomGridLayout:self];
+    }
+    
+    numColumns = roundf(self.gridWidth / self.columnWidth); //must consider margin and interItemSpacing
+    
+    return numColumns;
 }
 
 #pragma mark - Layout
 
 - (void)prepareLayout
 {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    
     NSIndexPath *indexPath;
     NSInteger itemCount = [self.collectionView numberOfItemsInSection:0];
     
     for (NSInteger item = 0; item < itemCount; item++) {
         indexPath = [NSIndexPath indexPathForItem:item inSection:0];
         UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+        
+        id identifier = [self identifierForItemAtIndexPath:indexPath];
+        NSUInteger spanX = [self spanXForItemAtIndexPath:indexPath];
+        NSUInteger spanY = [self spanYForItemAtIndexPath:indexPath];
+        
+        HYDGridRef gridRef = [self.grid addItem:identifier withSpanX:spanX andSpanY:spanY];
 
-        CGSize itemSize = [self sizeForItemAtIndexPath:indexPath];
-        CGPoint origin  = [self originForItemAtIndexPath:indexPath];
+        CGPoint origin = [self originForItemWithGridRef:gridRef];
+        CGSize size = [self sizeForItemWithSpanX:spanX andSpanY:spanY];
         
-        id identifier;
-        if ([self.delegate respondsToSelector:@selector(customGridLayout:gridCellIdentifierForItemAtIndexPath:)]) {
-            identifier = [self.delegate customGridLayout:self gridCellIdentifierForItemAtIndexPath:indexPath];
-        }
-        NSUInteger spanX;
-        if ([self.delegate respondsToSelector:@selector(customGridLayout:spanXForItemAtIndexPath:)]) {
-            spanX = [self.delegate customGridLayout:self spanXForItemAtIndexPath:indexPath];
-        }
+        NSLog(@"Origin: %@, Index: %d", NSStringFromCGPoint(origin), item);
         
-        HYDGridRef gridRef = [self.grid addItem:identifier withSpanX:spanX andSpanY:1 completion:^(BOOL itemAdded) {
-            if (!itemAdded) {
-                
-            }
-        }];
-        
-        //Work out the origin from the origin grid ref
-        
-        attributes.frame = CGRectMake(origin.x, origin.y, itemSize.width, itemSize.height);
+        attributes.frame = CGRectMake(origin.x, origin.y, size.width, size.height);
         
         self.layoutInfo[indexPath] = attributes;
     }
+    
+    NSLog(@"Attributes: %@", self.layoutInfo);
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
@@ -108,23 +135,90 @@
 
 - (CGSize)collectionViewContentSize {
     
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    
+    CGFloat width = 0.f;
+    
+    if ([self.delegate respondsToSelector:@selector(gridWidthForCustomGridLayout:)]) {
+        width = [self.delegate gridWidthForCustomGridLayout:self];
+    } else {
+        width = CGRectGetWidth(self.collectionView.bounds);
+    }
+
+    if (self.columnWidth == 0.f) {
+        if ([self.delegate respondsToSelector:@selector(columnWidthForCustomGridLayout:)]) {
+            self.columnWidth = [self.delegate columnWidthForCustomGridLayout:self];
+        }
+    }
+    
+    NSUInteger numberOfRowsInGrid = [self.grid numberOfRowsInGrid];
+    CGFloat height = numberOfRowsInGrid * self.columnWidth;
+    
+    NSLog(@"Num rows in grid: %d", numberOfRowsInGrid);
+    
+    return CGSizeMake(width, height);
 }
 
 #pragma mark - Helpers
 
-- (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
- 
-    CGSize itemSize;
-    if ([self.delegate respondsToSelector:@selector(customGridLayout:sizeForItemAtIndexPath:)]) {
-        itemSize = [self.delegate customGridLayout:self sizeForItemAtIndexPath:indexPath];
-    }
+- (CGSize)sizeForItemWithSpanX:(NSInteger)spanX andSpanY:(NSInteger)spanY {
     
+    CGSize itemSize = CGSizeZero;
+
+    if (self.columnWidth == 0.f) {
+        if ([self.delegate respondsToSelector:@selector(columnWidthForCustomGridLayout:)]) {
+            self.columnWidth = [self.delegate columnWidthForCustomGridLayout:self];
+        }
+    }
+
+    itemSize.width = self.columnWidth * spanX;
+    itemSize.height = self.columnWidth * spanY;
+
     return itemSize;
 }
 
-- (CGPoint)originForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (CGPoint)originForItemWithGridRef:(HYDGridRef)gridRef {
     
+    if (self.columnWidth == 0.f) {
+        if ([self.delegate respondsToSelector:@selector(columnWidthForCustomGridLayout:)]) {
+            self.columnWidth = [self.delegate columnWidthForCustomGridLayout:self];
+        }
+    }
+    
+    CGFloat xPosition = (gridRef.x -1) * self.columnWidth;
+    CGFloat yPosition = (gridRef.y -1) * self.columnWidth;
+
+    return CGPointMake(xPosition, yPosition);
 }
 
+- (id)identifierForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    id identifier;
+    if ([self.delegate respondsToSelector:@selector(customGridLayout:gridCellIdentifierForItemAtIndexPath:)]) {
+        identifier = [self.delegate customGridLayout:self gridCellIdentifierForItemAtIndexPath:indexPath];
+    }
+    
+    return identifier;
+}
+
+- (NSUInteger)spanXForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSUInteger spanX;
+    if ([self.delegate respondsToSelector:@selector(customGridLayout:spanXForItemAtIndexPath:)]) {
+        spanX = [self.delegate customGridLayout:self spanXForItemAtIndexPath:indexPath];
+    }
+    
+    return spanX;
+}
+
+- (NSUInteger)spanYForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSUInteger spanY;
+    if ([self.delegate respondsToSelector:@selector(customGridLayout:spanYForItemAtIndexPath:)]) {
+        spanY = [self.delegate customGridLayout:self spanYForItemAtIndexPath:indexPath];
+    }
+    
+    return spanY;
+}
 
 @end
