@@ -28,6 +28,11 @@
     self.layout.delegate = self;
 }
 
+//- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+//{
+//    [self.collectionView.collectionViewLayout invalidateLayout];
+//}
+
 #pragma mark - Accessors
 - (NSMutableArray *)elements
 {
@@ -120,7 +125,7 @@
         NSArray *lineArray = [elementsLine componentsSeparatedByString:@","];
         HYDElement *element = [[HYDElement alloc] initWithLineArray:lineArray];
         [self.elements addObject:element];
-        NSLog(@"%@", [element descriptionWithSpanXandY]);
+//        NSLog(@"%@", [element descriptionWithSpanXandY]);
     }];
 }
 

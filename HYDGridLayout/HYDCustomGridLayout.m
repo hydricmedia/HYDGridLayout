@@ -83,12 +83,17 @@
     return numColumns;
 }
 
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+{
+    return YES;
+}
+
 #pragma mark - Layout
 
 - (void)prepareLayout
 {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-    
+    self.grid = nil; //Reset the grid
+
     NSIndexPath *indexPath;
     NSInteger itemCount = [self.collectionView numberOfItemsInSection:0];
     
@@ -105,14 +110,10 @@
         CGPoint origin = [self originForItemWithGridRef:gridRef];
         CGSize size = [self sizeForItemWithSpanX:spanX andSpanY:spanY];
         
-        NSLog(@"Origin: %@, Index: %d", NSStringFromCGPoint(origin), item);
-        
         attributes.frame = CGRectMake(origin.x, origin.y, size.width, size.height);
         
         self.layoutInfo[indexPath] = attributes;
     }
-    
-    NSLog(@"Attributes: %@", self.layoutInfo);
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
@@ -135,8 +136,6 @@
 
 - (CGSize)collectionViewContentSize {
     
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-    
     CGFloat width = 0.f;
     
     if ([self.delegate respondsToSelector:@selector(gridWidthForCustomGridLayout:)]) {
@@ -153,8 +152,6 @@
     
     NSUInteger numberOfRowsInGrid = [self.grid numberOfRowsInGrid];
     CGFloat height = numberOfRowsInGrid * self.columnWidth;
-    
-    NSLog(@"Num rows in grid: %d", numberOfRowsInGrid);
     
     return CGSizeMake(width, height);
 }
