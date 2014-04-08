@@ -10,7 +10,7 @@
 
 @interface HYDGrid ()
 
-@property (nonatomic, strong) NSMutableDictionary *grid;
+@property (nonatomic, strong) NSMutableArray *grid;
 @property (nonatomic, assign) NSUInteger numberOfColumns;
 
 @end
@@ -19,31 +19,27 @@
 
 - (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns {
     
-    // Instantiate an empty grid
-    
     self = [super init];
     if (self) {
-        _grid = [NSMutableDictionary new];
+        _grid = [NSMutableArray new];
         _numberOfColumns = numberOfColumns;
     }
 
     return self;
 }
 
+#pragma mark - Public methods
+
 - (id)identifierForGridRef:(HYDGridRef)gridRef {
     
-    // Get the row, then get the cell within the row using the column reference (x)
-    
     id identifier;
-    NSArray *row = [self.grid objectForKey:@(gridRef.y)];
+    NSArray *row = self.grid[gridRef.y];
     if (row) {
         identifier = row[gridRef.x];
     }
     
     return identifier;
 }
-
-#pragma mark - Public methods
 
 - (NSUInteger)numberOfRowsInGrid {
     return [self.grid count];
@@ -57,12 +53,12 @@
     // Traverse the grid impressing the grid onto the item for each grid position.
     // If the impression (mappedItem) is empty then the mappedItem will fill the grid at that gridRef
     
-    [self.grid enumerateKeysAndObjectsUsingBlock:^(NSNumber *rowNumber, NSArray *row, BOOL *outerStop) {
+    [self.grid enumerateObjectsUsingBlock:^(NSArray *row, NSUInteger rowNumber, BOOL *outerStop) {
         
         [row enumerateObjectsUsingBlock:^(id obj, NSUInteger columnNumber, BOOL *innerStop) {
             
-            HYDGridRef gridRef = {columnNumber + 1, [rowNumber intValue]};
-            NSDictionary *mappedItem = [self mapForGridRef:gridRef withSpanX:spanX andSpanY:spanY];
+            HYDGridRef gridRef = {columnNumber + 1, rowNumber + 1};
+            NSArray *mappedItem = [self mapForGridRef:gridRef withSpanX:spanX andSpanY:spanY];
             
             if (mappedItem && [self mappedItemIsEmpty:mappedItem]) {
                 [self addMappedItem:mappedItem withIdendifier:identifier toGridRef:gridRef];
@@ -83,40 +79,21 @@
 
 #pragma mark - Private methods
 
-- (HYDRowNumber *)addNewRow {
-    
-    // rowNo is key, array (of 'cells') is value.
-    // Each 'cell' will either contain NSNull if it is empty or an identifier representing the item that fills it
+- (void)addNewRow {
     
     NSMutableArray *newRow = [NSMutableArray arrayWithCapacity:self.numberOfColumns];
     for (NSUInteger i = 0; i < self.numberOfColumns; i++) {
         [newRow addObject:[NSNull null]];
     }
     
-    HYDRowNumber *nextRowNumber = @([self getNextRowNumber]);
-    [self.grid setObject:newRow forKey:nextRowNumber];
-    
-    return nextRowNumber;
+    [self.grid addObject:newRow];
 }
 
-- (void)addMappedItem:(NSDictionary *)mappedItem withIdendifier:(id)identifier toGridRef:(HYDGridRef)gridRef
-{
-    NSUInteger lastRowIndex = gridRef.y-1 + [mappedItem count];
-    NSUInteger lastColIndex = gridRef.x-1 + [[[mappedItem allValues] lastObject] count];
-    
-    for (NSUInteger rowIndex=gridRef.y; rowIndex <= lastRowIndex; rowIndex++) {
-        for (NSUInteger columnIndex=gridRef.x - 1; columnIndex <  lastColIndex; columnIndex++) {
-            NSMutableArray *gridRow = self.grid[@(rowIndex)];
-            gridRow[columnIndex] = identifier;
-        }
-    }
-}
-
-- (BOOL)mappedItemIsEmpty:(NSDictionary *)mappedItem
+- (BOOL)mappedItemIsEmpty:(NSArray *)mappedItem
 {
     __block BOOL isFilled = NO;
     
-    [mappedItem enumerateKeysAndObjectsUsingBlock:^(NSNumber *rowNumber, NSArray *row, BOOL *outerStop) {
+    [mappedItem enumerateObjectsUsingBlock:^(NSArray *row, NSUInteger rowNumber, BOOL *outerStop) {
         [row enumerateObjectsUsingBlock:^(id identifier, NSUInteger columnNumber, BOOL *innerStop) {
             *innerStop = isFilled = ![identifier isEqual:[NSNull null]];
         }];
@@ -127,47 +104,49 @@
     return !isFilled;
 }
 
-- (NSDictionary *)mapForGridRef:(HYDGridRef)gridRef withSpanX:(NSUInteger)spanX andSpanY:(NSUInteger)spanY
+- (void)addMappedItem:(NSArray *)mappedItem withIdendifier:(id)identifier toGridRef:(HYDGridRef)gridRef
 {
-    NSUInteger columnIndex = gridRef.x - 1;
-    if ((columnIndex + spanX) > self.numberOfColumns) {
+    NSUInteger lastColIndex = gridRef.x - 1 + [[mappedItem firstObject] count];
+    NSUInteger lastRowIndex = gridRef.y - 1 + [mappedItem count];
+
+    for (NSUInteger rowIndex=gridRef.y - 1; rowIndex < lastRowIndex; rowIndex++) {
+        for (NSUInteger colIndex=gridRef.x - 1; colIndex <  lastColIndex; colIndex++) {
+            NSMutableArray *gridRow = self.grid[rowIndex];
+            gridRow[colIndex] = identifier;
+        }
+    }
+}
+
+- (NSArray *)mapForGridRef:(HYDGridRef)gridRef withSpanX:(NSUInteger)spanX andSpanY:(NSUInteger)spanY
+{
+    NSUInteger rowIndex = gridRef.y - 1;
+    NSUInteger colIndex = gridRef.x - 1;
+
+    if ((colIndex + spanX) > self.numberOfColumns) {
         return nil;
     }
+
+    NSMutableArray *mappedRows = [NSMutableArray arrayWithCapacity:spanY];
+    NSMutableArray *mappedItem = [NSMutableArray arrayWithCapacity:spanY];
     
-    NSMutableDictionary *mappedItem = [NSMutableDictionary dictionaryWithCapacity:spanY];
-    NSMutableDictionary *mappedRows = [NSMutableDictionary dictionaryWithCapacity:spanY];
-    
-    for (NSUInteger i=gridRef.y; i < gridRef.y + spanY; i++) {
+    for (NSUInteger i=rowIndex; i < rowIndex + spanY; i++) {
         
-        if (i == [self getNextRowNumber]) {
+        if (i == [self.grid count]) {
             [self addNewRow];
         }
         
-         mappedRows[@(i)] = [self.grid objectForKey:(HYDRowNumber *)@(i)];
+        [mappedRows addObject:self.grid[i]];
     }
-    
-    [mappedRows enumerateKeysAndObjectsUsingBlock:^(NSNumber *rowNumber, NSArray *row, BOOL *stop) {
+
+    [mappedRows enumerateObjectsUsingBlock:^(NSArray *row, NSUInteger idx, BOOL *stop) {
         NSMutableArray *newRow = [NSMutableArray arrayWithCapacity:spanX];
-        for (NSUInteger col=columnIndex; col < columnIndex + spanX; col++) {
-            [newRow addObject:row[col]];
+        for (NSUInteger i=colIndex; i < colIndex + spanX; i++) {
+            [newRow addObject:row[i]];
         }
-        mappedItem[rowNumber] = newRow;
+        [mappedItem addObject:newRow];
     }];
     
     return mappedItem;
-}
-
-- (NSUInteger)getNextRowNumber
-{
-    NSArray *sortedRows = [[self.grid allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [obj1 compare:obj2];
-    }];
-    
-    return [[sortedRows lastObject] integerValue] + 1;
-}
-
-- (NSArray *)lastRow {
-    return [[self.grid allKeys] lastObject];
 }
 
 @end
