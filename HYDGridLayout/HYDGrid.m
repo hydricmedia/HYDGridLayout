@@ -19,13 +19,12 @@
 
 - (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns {
     
-    // Instantiate a grid with a single row
+    // Instantiate an empty grid
     
     self = [super init];
     if (self) {
         _grid = [NSMutableDictionary new];
         _numberOfColumns = numberOfColumns;
-        [self addNewRow];
     }
 
     return self;
@@ -44,6 +43,46 @@
     return identifier;
 }
 
+#pragma mark - Public methods
+
+- (NSUInteger)numberOfRowsInGrid {
+    return [self.grid count];
+}
+
+- (HYDGridRef)insertItem:(id)identifier withSpanX:(NSUInteger)spanX andSpanY:(NSInteger)spanY
+{
+    __block BOOL itemAdded = NO;
+    __block HYDGridRef filledGridRef = {0, 0};
+    
+    // Traverse the grid impressing the grid onto the item for each grid position.
+    // If the impression (mappedItem) is empty then the mappedItem will fill the grid at that gridRef
+    
+    [self.grid enumerateKeysAndObjectsUsingBlock:^(NSNumber *rowNumber, NSArray *row, BOOL *outerStop) {
+        
+        [row enumerateObjectsUsingBlock:^(id obj, NSUInteger columnNumber, BOOL *innerStop) {
+            
+            HYDGridRef gridRef = {columnNumber + 1, [rowNumber intValue]};
+            NSDictionary *mappedItem = [self mapForGridRef:gridRef withSpanX:spanX andSpanY:spanY];
+            
+            if (mappedItem && [self mappedItemIsEmpty:mappedItem]) {
+                [self addMappedItem:mappedItem withIdendifier:identifier toGridRef:gridRef];
+                filledGridRef = gridRef;
+                *innerStop = itemAdded = YES;
+            }
+        }];
+        
+        *outerStop = itemAdded;
+    }];
+    
+    if (!itemAdded) {
+        [self addNewRow];
+    }
+    
+    return filledGridRef;
+}
+
+#pragma mark - Private methods
+
 - (HYDRowNumber *)addNewRow {
     
     // rowNo is key, array (of 'cells') is value.
@@ -60,82 +99,64 @@
     return nextRowNumber;
 }
 
-- (HYDGridRef)addItem:(id)identifier withSpanX:(NSUInteger)spanX andSpanY:(NSUInteger)spanY {
+- (void)addMappedItem:(NSDictionary *)mappedItem withIdendifier:(id)identifier toGridRef:(HYDGridRef)gridRef
+{
+    NSUInteger lastRowIndex = gridRef.y-1 + [mappedItem count];
+    NSUInteger lastColIndex = gridRef.x-1 + [[[mappedItem allValues] lastObject] count];
     
-    NSAssert(spanX > 0, @"The item to be added to the grid must span at least one column.");
+    for (NSUInteger rowIndex=gridRef.y; rowIndex <= lastRowIndex; rowIndex++) {
+        for (NSUInteger columnIndex=gridRef.x - 1; columnIndex <  lastColIndex; columnIndex++) {
+            NSMutableArray *gridRow = self.grid[@(rowIndex)];
+            gridRow[columnIndex] = identifier;
+        }
+    }
+}
+
+- (BOOL)mappedItemIsEmpty:(NSDictionary *)mappedItem
+{
+    __block BOOL isFilled = NO;
     
-    // Given the span size of the item, find the next available slot that it can occupy.
-    // If the spanX is n, n consecutive cells must be free (assume spanY is 1 -- i.e. item only 1 high)
-    // Once a space has been found, fill the rowArray with the identifier of the item.
-    // Calculate the gridRef and return it.
-    
-    __block BOOL itemAdded = NO;
-    __block HYDGridRef gridRef = {0, 0};
-    
-    [self.grid enumerateKeysAndObjectsUsingBlock:^(NSNumber *rowNumber, NSMutableArray *row, BOOL *stop) {
-        
-        __block NSUInteger consecutiveEmptyCellCount = 0;
-        
-        [row enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *innerStop) {
-            
-            //Columns start from 1. Increment the emptyCount until a filled cell is found or empty cells are filled.
-            
-            NSUInteger colNumber = idx + 1;
-            consecutiveEmptyCellCount = ([obj isEqual:[NSNull null]]) ? consecutiveEmptyCellCount + 1 : 0;
-            
-            if (consecutiveEmptyCellCount == spanX) {
-                
-                NSInteger startingIndex = (idx+1) - spanX;
-                NSInteger endingIndex = startingIndex + (spanX-1);
-                
-                for (NSInteger i=startingIndex; i <= endingIndex; i++) {
-                    row[i] = identifier;
-                }
-                
-                gridRef.x = (colNumber + 1) - consecutiveEmptyCellCount; //to get the first cell in the span [1|2]
-                gridRef.y = [rowNumber integerValue]; // 1 => [1|2]
-                                                      // 2 => [1|2]
-                *innerStop = itemAdded = YES;
-            }
+    [mappedItem enumerateKeysAndObjectsUsingBlock:^(NSNumber *rowNumber, NSArray *row, BOOL *outerStop) {
+        [row enumerateObjectsUsingBlock:^(id identifier, NSUInteger columnNumber, BOOL *innerStop) {
+            *innerStop = isFilled = ![identifier isEqual:[NSNull null]];
         }];
         
-        *stop = itemAdded;
+        *outerStop = isFilled;
     }];
     
-    // If the grid has been parsed and the item has not beed added, add it to a new row.
+    return !isFilled;
+}
+
+- (NSDictionary *)mapForGridRef:(HYDGridRef)gridRef withSpanX:(NSUInteger)spanX andSpanY:(NSUInteger)spanY
+{
+    NSUInteger columnIndex = gridRef.x - 1;
+    if ((columnIndex + spanX) > self.numberOfColumns) {
+        return nil;
+    }
     
-    if (!itemAdded) {
-        NSNumber *rowNumber = [self addNewRow];
-        gridRef = [self addItem:identifier withSpanX:spanX andSpanY:spanY toNewRow:rowNumber];
+    NSMutableDictionary *mappedItem = [NSMutableDictionary dictionaryWithCapacity:spanY];
+    NSMutableDictionary *mappedRows = [NSMutableDictionary dictionaryWithCapacity:spanY];
+    
+    for (NSUInteger i=gridRef.y; i < gridRef.y + spanY; i++) {
         
+        if (i == [self getNextRowNumber]) {
+            [self addNewRow];
+        }
+        
+         mappedRows[@(i)] = [self.grid objectForKey:(HYDRowNumber *)@(i)];
     }
     
-    return gridRef;
+    [mappedRows enumerateKeysAndObjectsUsingBlock:^(NSNumber *rowNumber, NSArray *row, BOOL *stop) {
+        NSMutableArray *newRow = [NSMutableArray arrayWithCapacity:spanX];
+        for (NSUInteger col=columnIndex; col < columnIndex + spanX; col++) {
+            [newRow addObject:row[col]];
+        }
+        mappedItem[rowNumber] = newRow;
+    }];
+    
+    return mappedItem;
 }
 
-- (HYDGridRef)addItem:(id)identifier withSpanX:(NSUInteger)spanX andSpanY:(NSUInteger)spanY toNewRow:(NSNumber *)rowNumber {
-    
-    HYDGridRef gridRef = {0, 0};
-    NSMutableArray *row = self.grid[rowNumber];
-    
-    NSInteger startingIndex = 0;
-    NSInteger endingIndex = spanX-1;
-    
-    for (NSUInteger i = startingIndex; i <= endingIndex; i++) {
-        row[i] = identifier;
-    }
-    
-    gridRef.x = startingIndex+1;
-    gridRef.y = [rowNumber integerValue];
-    
-    return gridRef;
-}
-
-- (NSUInteger)numberOfRowsInGrid {
-    return [self.grid count];
-}
-
-#pragma mark - Private methods
 - (NSUInteger)getNextRowNumber
 {
     NSArray *sortedRows = [[self.grid allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {

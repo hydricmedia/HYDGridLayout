@@ -28,10 +28,10 @@
     self.layout.delegate = self;
 }
 
-//- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-//{
-//    [self.collectionView.collectionViewLayout invalidateLayout];
-//}
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self.collectionViewLayout invalidateLayout];
+}
 
 #pragma mark - Accessors
 - (NSMutableArray *)elements
@@ -98,7 +98,9 @@
 }
 
 - (NSUInteger)customGridLayout:(HYDCustomGridLayout *)layout spanYForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return 1;
+    
+    HYDElement *element = self.elements[indexPath.item];
+    return element.spanY;
 }
 
 #pragma mark - Private methods
@@ -125,7 +127,7 @@
         NSArray *lineArray = [elementsLine componentsSeparatedByString:@","];
         HYDElement *element = [[HYDElement alloc] initWithLineArray:lineArray];
         [self.elements addObject:element];
-//        NSLog(@"%@", [element descriptionWithSpanXandY]);
+        NSLog(@"%@", [element descriptionWithSpanXandY]);
     }];
 }
 

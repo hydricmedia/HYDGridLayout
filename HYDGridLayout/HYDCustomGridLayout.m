@@ -85,7 +85,7 @@
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
-    return YES;
+    return NO;
 }
 
 #pragma mark - Layout
@@ -104,8 +104,12 @@
         id identifier = [self identifierForItemAtIndexPath:indexPath];
         NSUInteger spanX = [self spanXForItemAtIndexPath:indexPath];
         NSUInteger spanY = [self spanYForItemAtIndexPath:indexPath];
+
+        HYDGridRef gridRef = {0, 0};
         
-        HYDGridRef gridRef = [self.grid addItem:identifier withSpanX:spanX andSpanY:spanY];
+        while (gridRef.x == 0 && gridRef.y == 0) {
+            gridRef = [self.grid insertItem:identifier withSpanX:spanX andSpanY:spanY];
+        }
 
         CGPoint origin = [self originForItemWithGridRef:gridRef];
         CGSize size = [self sizeForItemWithSpanX:spanX andSpanY:spanY];

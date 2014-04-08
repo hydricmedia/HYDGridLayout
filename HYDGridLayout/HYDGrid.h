@@ -17,10 +17,9 @@ typedef NSNumber HYDRowNumber;
 
 @interface HYDGrid : NSObject
 
-- (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns;
 - (id)identifierForGridRef:(HYDGridRef)gridRef;
-- (HYDGridRef)addItem:(id)identifier withSpanX:(NSUInteger)spanX andSpanY:(NSUInteger)spanY;
-- (HYDRowNumber *)addNewRow;
+- (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns;
+- (HYDGridRef)insertItem:(id)identifier withSpanX:(NSUInteger)spanX andSpanY:(NSInteger)spanY;
 - (NSUInteger)numberOfRowsInGrid;
 
 @end
