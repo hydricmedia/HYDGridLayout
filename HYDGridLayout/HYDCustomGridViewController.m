@@ -61,16 +61,18 @@
 }
 
 #pragma mark - HYDCustomGridLayoutDelegate conformance
-- (CGFloat)gridWidthForCustomGridLayout:(HYDCustomGridLayout *)layout {
-    return self.collectionView.bounds.size.width;
+
+- (NSUInteger)numberOfColumnsForCustomGridLayout:(HYDCustomGridLayout *)layout
+{
+    if (IPHONE) {
+        return 1;
+    } else {
+        return (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) ? 4 : 5;
+    }
 }
 
-- (CGFloat)columnWidthForCustomGridLayout:(HYDCustomGridLayout *)layout {
-    if (IPHONE) {
-        return 78.f;
-    } else {
-        return (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) ? 192.f : 205.f;
-    }
+- (CGFloat)gridWidthForCustomGridLayout:(HYDCustomGridLayout *)layout {
+    return self.collectionView.bounds.size.width;
 }
 
 - (CGFloat)minInterItemSpacingVerticalForCustomGridLayout:(HYDCustomGridLayout *)layout {

@@ -17,8 +17,11 @@ typedef NSNumber HYDRowNumber;
 
 @interface HYDGrid : NSObject
 
+@property (nonatomic, assign, readonly) CGFloat gridWidth;
+@property (nonatomic, assign, readonly) CGFloat columnWidth;
+
 - (id)identifierForGridRef:(HYDGridRef)gridRef;
-- (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns;
+- (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns andGridWidth:(CGFloat)width;
 - (HYDGridRef)insertItemAtIndexPath:(NSIndexPath *)indexPath withSpanX:(NSUInteger)spanX andSpanY:(NSInteger)spanY;
 - (NSUInteger)numberOfRowsInGrid;
 

@@ -12,12 +12,6 @@
 @interface HYDCustomGridLayout ()
 
 @property (nonatomic, strong) HYDGrid *grid;
-@property (nonatomic, assign) CGFloat gridWidth; //should be part of grid
-@property (nonatomic, assign) CGFloat columnWidth;
-
-@property (nonatomic, assign) NSUInteger numberOfRows;
-@property (nonatomic, assign) NSUInteger numberOfColumns;
-
 @property (nonatomic, strong) NSMutableDictionary *layoutInfo;
 
 @end
@@ -60,27 +54,10 @@
 
 - (HYDGrid *)grid {
     if (!_grid) {
-        _grid = [[HYDGrid alloc] initWithNumberOfColumns:self.numberOfColumns];
+        _grid = [[HYDGrid alloc] initWithNumberOfColumns:[self numberOfColumns] andGridWidth:[self gridWidth]];
     }
     
     return _grid;
-}
-
-- (NSUInteger)numberOfColumns {
-    
-    NSUInteger numColumns = 0;
-    
-    if ([self.delegate respondsToSelector:@selector(columnWidthForCustomGridLayout:)]) {
-        self.columnWidth = [self.delegate columnWidthForCustomGridLayout:self];
-    }
-    
-    if ([self.delegate respondsToSelector:@selector(gridWidthForCustomGridLayout:)]) {
-        self.gridWidth = [self.delegate gridWidthForCustomGridLayout:self];
-    }
-    
-    numColumns = roundf(self.gridWidth / self.columnWidth); //must consider margin and interItemSpacing
-    
-    return numColumns;
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
@@ -140,54 +117,52 @@
 
 - (CGSize)collectionViewContentSize {
     
-    CGFloat width = 0.f;
-    
-    if ([self.delegate respondsToSelector:@selector(gridWidthForCustomGridLayout:)]) {
-        width = [self.delegate gridWidthForCustomGridLayout:self];
-    } else {
-        width = CGRectGetWidth(self.collectionView.bounds);
-    }
-
-    if (self.columnWidth == 0.f) {
-        if ([self.delegate respondsToSelector:@selector(columnWidthForCustomGridLayout:)]) {
-            self.columnWidth = [self.delegate columnWidthForCustomGridLayout:self];
-        }
-    }
-    
-    NSUInteger numberOfRowsInGrid = [self.grid numberOfRowsInGrid];
-    CGFloat height = numberOfRowsInGrid * self.columnWidth;
-    
-    return CGSizeMake(width, height);
+    CGFloat height = [self.grid numberOfRowsInGrid] * self.grid.columnWidth;
+    return CGSizeMake(self.grid.gridWidth, height);
 }
 
 #pragma mark - Helpers
 
+- (CGFloat)gridWidth {
+    
+    CGFloat gridWidth = CGRectGetWidth(self.collectionView.bounds);
+    
+    if ([self.delegate respondsToSelector:@selector(gridWidthForCustomGridLayout:)]) {
+        gridWidth = [self.delegate gridWidthForCustomGridLayout:self];
+    }
+    
+    return gridWidth;
+}
+
+- (NSUInteger)numberOfColumns {
+    
+    NSUInteger numColumns = 0;
+    if ([self.delegate respondsToSelector:@selector(numberOfColumnsForCustomGridLayout:)]) {
+        numColumns = [self.delegate numberOfColumnsForCustomGridLayout:self];
+    }
+    
+    return numColumns;
+}
+
 - (CGSize)sizeForItemWithSpanX:(NSInteger)spanX andSpanY:(NSInteger)spanY {
     
     CGSize itemSize = CGSizeZero;
-
-    if (self.columnWidth == 0.f) {
-        if ([self.delegate respondsToSelector:@selector(columnWidthForCustomGridLayout:)]) {
-            self.columnWidth = [self.delegate columnWidthForCustomGridLayout:self];
-        }
+    UIEdgeInsets margins = UIEdgeInsetsZero;
+    
+    if ([self.delegate respondsToSelector:@selector(marginForCustomGridLayout:)]) {
+        margins = [self.delegate marginForCustomGridLayout:self];
     }
-
-    itemSize.width = self.columnWidth * spanX;
-    itemSize.height = self.columnWidth * spanY;
+    
+    itemSize.width = self.grid.columnWidth * spanX;
+    itemSize.height = self.grid.columnWidth * spanY;
 
     return itemSize;
 }
 
 - (CGPoint)originForItemWithGridRef:(HYDGridRef)gridRef {
     
-    if (self.columnWidth == 0.f) {
-        if ([self.delegate respondsToSelector:@selector(columnWidthForCustomGridLayout:)]) {
-            self.columnWidth = [self.delegate columnWidthForCustomGridLayout:self];
-        }
-    }
-    
-    CGFloat xPosition = (gridRef.x -1) * self.columnWidth;
-    CGFloat yPosition = (gridRef.y -1) * self.columnWidth;
+    CGFloat xPosition = (gridRef.x -1) * self.grid.columnWidth;
+    CGFloat yPosition = (gridRef.y -1) * self.grid.columnWidth;
 
     return CGPointMake(xPosition, yPosition);
 }

@@ -12,17 +12,20 @@
 
 @property (nonatomic, strong) NSMutableArray *grid;
 @property (nonatomic, assign) NSUInteger numberOfColumns;
+@property (nonatomic, assign) CGFloat columnWidth;
 
 @end
 
 @implementation HYDGrid
 
-- (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns {
+- (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns andGridWidth:(CGFloat)width {
     
     self = [super init];
     if (self) {
         _grid = [NSMutableArray new];
+        _gridWidth = width;
         _numberOfColumns = numberOfColumns;
+        _columnWidth = floor(width/numberOfColumns);
     }
 
     return self;
