@@ -101,14 +101,13 @@
         indexPath = [NSIndexPath indexPathForItem:item inSection:0];
         UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
         
-        id identifier = [self identifierForItemAtIndexPath:indexPath];
         NSUInteger spanX = [self spanXForItemAtIndexPath:indexPath];
         NSUInteger spanY = [self spanYForItemAtIndexPath:indexPath];
 
         HYDGridRef gridRef = {0, 0};
         
         while (gridRef.x == 0 && gridRef.y == 0) {
-            gridRef = [self.grid insertItem:identifier withSpanX:spanX andSpanY:spanY];
+            gridRef = [self.grid insertItemAtIndexPath:indexPath withSpanX:spanX andSpanY:spanY];
         }
 
         CGPoint origin = [self originForItemWithGridRef:gridRef];
@@ -190,16 +189,6 @@
     CGFloat yPosition = (gridRef.y -1) * self.columnWidth;
 
     return CGPointMake(xPosition, yPosition);
-}
-
-- (id)identifierForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    id identifier;
-    if ([self.delegate respondsToSelector:@selector(customGridLayout:gridCellIdentifierForItemAtIndexPath:)]) {
-        identifier = [self.delegate customGridLayout:self gridCellIdentifierForItemAtIndexPath:indexPath];
-    }
-    
-    return identifier;
 }
 
 - (NSUInteger)spanXForItemAtIndexPath:(NSIndexPath *)indexPath {

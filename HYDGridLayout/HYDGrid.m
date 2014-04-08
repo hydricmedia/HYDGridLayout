@@ -45,7 +45,7 @@
     return [self.grid count];
 }
 
-- (HYDGridRef)insertItem:(id)identifier withSpanX:(NSUInteger)spanX andSpanY:(NSInteger)spanY
+- (HYDGridRef)insertItemAtIndexPath:(NSIndexPath *)indexPath withSpanX:(NSUInteger)spanX andSpanY:(NSInteger)spanY
 {
     __block BOOL itemAdded = NO;
     __block HYDGridRef filledGridRef = {0, 0};
@@ -61,7 +61,7 @@
             NSArray *mappedItem = [self mapForGridRef:gridRef withSpanX:spanX andSpanY:spanY];
             
             if (mappedItem && [self mappedItemIsEmpty:mappedItem]) {
-                [self addMappedItem:mappedItem withIdendifier:identifier toGridRef:gridRef];
+                [self addMappedItem:mappedItem withIdendifier:indexPath.item toGridRef:gridRef];
                 filledGridRef = gridRef;
                 *innerStop = itemAdded = YES;
             }
@@ -104,7 +104,7 @@
     return !isFilled;
 }
 
-- (void)addMappedItem:(NSArray *)mappedItem withIdendifier:(id)identifier toGridRef:(HYDGridRef)gridRef
+- (void)addMappedItem:(NSArray *)mappedItem withIdendifier:(NSUInteger)identifier toGridRef:(HYDGridRef)gridRef
 {
     NSUInteger lastColIndex = gridRef.x - 1 + [[mappedItem firstObject] count];
     NSUInteger lastRowIndex = gridRef.y - 1 + [mappedItem count];
@@ -112,7 +112,7 @@
     for (NSUInteger rowIndex=gridRef.y - 1; rowIndex < lastRowIndex; rowIndex++) {
         for (NSUInteger colIndex=gridRef.x - 1; colIndex <  lastColIndex; colIndex++) {
             NSMutableArray *gridRow = self.grid[rowIndex];
-            gridRow[colIndex] = identifier;
+            gridRow[colIndex] = @(identifier);
         }
     }
 }
