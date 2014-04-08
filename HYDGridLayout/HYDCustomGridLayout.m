@@ -92,12 +92,13 @@
 
 - (void)prepareLayout
 {
-    self.grid = nil; //Reset the grid
+    self.grid = nil;
 
     NSIndexPath *indexPath;
     NSInteger itemCount = [self.collectionView numberOfItemsInSection:0];
     
     for (NSInteger item = 0; item < itemCount; item++) {
+        
         indexPath = [NSIndexPath indexPathForItem:item inSection:0];
         UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
         

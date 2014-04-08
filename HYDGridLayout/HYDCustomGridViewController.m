@@ -67,9 +67,9 @@
 
 - (CGFloat)columnWidthForCustomGridLayout:(HYDCustomGridLayout *)layout {
     if (IPHONE) {
-        return 80.f;
+        return 78.f;
     } else {
-        return 196.f;
+        return (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) ? 192.f : 205.f;
     }
 }
 
