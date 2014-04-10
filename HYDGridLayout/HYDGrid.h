@@ -13,16 +13,26 @@ typedef struct {
     NSUInteger y;
 } HYDGridRef;
 
+typedef struct {
+    CGFloat xSpacing;
+    CGFloat ySpacing;
+} HYDGridInterItemSpacing;
+
 typedef NSNumber HYDRowNumber;
 
 @interface HYDGrid : NSObject
 
 @property (nonatomic, assign, readonly) CGFloat gridWidth;
 @property (nonatomic, assign, readonly) CGFloat columnWidth;
+@property (nonatomic, assign, readonly) UIEdgeInsets margins;
+@property (nonatomic, assign, readonly) CGFloat cellContentWidth;
+@property (nonatomic, assign, readonly) NSUInteger numberOfColumns;
+@property (nonatomic, assign, readonly) HYDGridInterItemSpacing spacing;
 
-- (id)identifierForGridRef:(HYDGridRef)gridRef;
-- (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns andGridWidth:(CGFloat)width;
-- (HYDGridRef)insertItemAtIndexPath:(NSIndexPath *)indexPath withSpanX:(NSUInteger)spanX andSpanY:(NSInteger)spanY;
 - (NSUInteger)numberOfRowsInGrid;
+- (CGPoint)originForItemAtGridRef:(HYDGridRef)gridRef;
+- (CGSize)sizeForItemSpanningX:(NSUInteger)spanX andSpanningY:(NSUInteger)spanY;
+- (HYDGridRef)insertItemAtIndexPath:(NSIndexPath *)indexPath withSpanX:(NSUInteger)spanX andSpanY:(NSInteger)spanY;
+- (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns gridWidth:(CGFloat)width gridMargins:(UIEdgeInsets)margins gridSpacing:(HYDGridInterItemSpacing)spacing;
 
 @end

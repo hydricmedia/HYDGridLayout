@@ -11,21 +11,22 @@
 @interface HYDGrid ()
 
 @property (nonatomic, strong) NSMutableArray *grid;
-@property (nonatomic, assign) NSUInteger numberOfColumns;
-@property (nonatomic, assign) CGFloat columnWidth;
 
 @end
 
 @implementation HYDGrid
 
-- (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns andGridWidth:(CGFloat)width {
+- (id)initWithNumberOfColumns:(NSUInteger)numberOfColumns gridWidth:(CGFloat)width gridMargins:(UIEdgeInsets)margins gridSpacing:(HYDGridInterItemSpacing)spacing {
     
     self = [super init];
     if (self) {
         _grid = [NSMutableArray new];
-        _gridWidth = width;
         _numberOfColumns = numberOfColumns;
-        _columnWidth = floor(width/numberOfColumns);
+        _margins = margins;
+        _gridWidth = width - margins.left - margins.right;
+        _columnWidth = floor(_gridWidth/numberOfColumns);
+        _spacing = spacing;
+        _cellContentWidth = [self calcCellContentWidthWithSpacing:(HYDGridInterItemSpacing)spacing];
     }
 
     return self;
@@ -33,23 +34,27 @@
 
 #pragma mark - Public methods
 
-- (id)identifierForGridRef:(HYDGridRef)gridRef {
-    
-    id identifier;
-    NSArray *row = self.grid[gridRef.y];
-    if (row) {
-        identifier = row[gridRef.x];
-    }
-    
-    return identifier;
-}
-
 - (NSUInteger)numberOfRowsInGrid {
     return [self.grid count];
 }
 
-- (HYDGridRef)insertItemAtIndexPath:(NSIndexPath *)indexPath withSpanX:(NSUInteger)spanX andSpanY:(NSInteger)spanY
+- (CGSize)sizeForItemSpanningX:(NSUInteger)spanX andSpanningY:(NSUInteger)spanY {
+    
+    CGFloat width  = (self.cellContentWidth * spanX) + ((spanX - 1) * self.spacing.xSpacing);
+    CGFloat height = (self.cellContentWidth * spanY) + ((spanY - 1) * self.spacing.ySpacing);
+ 
+    return CGSizeMake(width, height);
+}
+
+- (CGPoint)originForItemAtGridRef:(HYDGridRef)gridRef
 {
+    CGFloat xPosition = ((gridRef.x -1) * self.cellContentWidth) + ((gridRef.x -1) * self.spacing.xSpacing) + self.margins.left;
+    CGFloat yPosition = ((gridRef.y -1) * self.columnWidth) + self.margins.top;
+    
+    return CGPointMake(xPosition, yPosition);
+}
+
+- (HYDGridRef)insertItemAtIndexPath:(NSIndexPath *)indexPath withSpanX:(NSUInteger)spanX andSpanY:(NSInteger)spanY {
     __block BOOL itemAdded = NO;
     __block HYDGridRef filledGridRef = {0, 0};
     
@@ -81,6 +86,14 @@
 }
 
 #pragma mark - Private methods
+
+- (CGFloat)calcCellContentWidthWithSpacing:(HYDGridInterItemSpacing)spacing {
+    
+    CGFloat totalInterItemXSpacing = ((self.numberOfColumns - 1) * spacing.xSpacing);
+    CGFloat cellContentWidth = (self.gridWidth - totalInterItemXSpacing) / self.numberOfColumns;
+    
+    return floor(cellContentWidth);
+}
 
 - (void)addNewRow {
     

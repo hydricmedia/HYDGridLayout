@@ -54,7 +54,7 @@
 
 - (HYDGrid *)grid {
     if (!_grid) {
-        _grid = [[HYDGrid alloc] initWithNumberOfColumns:[self numberOfColumns] andGridWidth:[self gridWidth]];
+        _grid = [[HYDGrid alloc] initWithNumberOfColumns:[self numberOfColumns] gridWidth:[self gridWidth] gridMargins:[self margins] gridSpacing:[self interItemSpacing]];
     }
     
     return _grid;
@@ -88,10 +88,12 @@
             gridRef = [self.grid insertItemAtIndexPath:indexPath withSpanX:spanX andSpanY:spanY];
         }
 
-        CGPoint origin = [self originForItemWithGridRef:gridRef];
-        CGSize size = [self sizeForItemWithSpanX:spanX andSpanY:spanY];
+        CGPoint origin = [self.grid originForItemAtGridRef:gridRef];
+        CGSize size = [self.grid sizeForItemSpanningX:spanX andSpanningY:spanY];
         
         attributes.frame = CGRectMake(origin.x, origin.y, size.width, size.height);
+        
+        NSLog(@"IndexPath: %@, Frame: %@", indexPath, NSStringFromCGRect(attributes.frame));
         
         self.layoutInfo[indexPath] = attributes;
     }
@@ -117,11 +119,24 @@
 
 - (CGSize)collectionViewContentSize {
     
-    CGFloat height = [self.grid numberOfRowsInGrid] * self.grid.columnWidth;
+    CGFloat height = ([self.grid numberOfRowsInGrid] * self.grid.columnWidth) + self.grid.margins.top + self.grid.margins.bottom;
     return CGSizeMake(self.grid.gridWidth, height);
 }
 
 #pragma mark - Helpers
+
+- (HYDGridInterItemSpacing)interItemSpacing {
+    
+    HYDGridInterItemSpacing spacing = {0, 0};
+    if ([self.delegate respondsToSelector:@selector(minInterItemSpacingHorizontalForCustomGridLayout:)]) {
+        spacing.xSpacing = [self.delegate minInterItemSpacingHorizontalForCustomGridLayout:self];
+    }
+    if ([self.delegate respondsToSelector:@selector(minInterItemSpacingVerticalForCustomGridLayout:)]) {
+        spacing.ySpacing = [self.delegate minInterItemSpacingVerticalForCustomGridLayout:self];
+    }
+    
+    return spacing;
+}
 
 - (CGFloat)gridWidth {
     
@@ -144,27 +159,14 @@
     return numColumns;
 }
 
-- (CGSize)sizeForItemWithSpanX:(NSInteger)spanX andSpanY:(NSInteger)spanY {
+- (UIEdgeInsets)margins {
     
-    CGSize itemSize = CGSizeZero;
     UIEdgeInsets margins = UIEdgeInsetsZero;
-    
     if ([self.delegate respondsToSelector:@selector(marginForCustomGridLayout:)]) {
         margins = [self.delegate marginForCustomGridLayout:self];
     }
     
-    itemSize.width = self.grid.columnWidth * spanX;
-    itemSize.height = self.grid.columnWidth * spanY;
-
-    return itemSize;
-}
-
-- (CGPoint)originForItemWithGridRef:(HYDGridRef)gridRef {
-    
-    CGFloat xPosition = (gridRef.x -1) * self.grid.columnWidth;
-    CGFloat yPosition = (gridRef.y -1) * self.grid.columnWidth;
-
-    return CGPointMake(xPosition, yPosition);
+    return margins;
 }
 
 - (NSUInteger)spanXForItemAtIndexPath:(NSIndexPath *)indexPath {

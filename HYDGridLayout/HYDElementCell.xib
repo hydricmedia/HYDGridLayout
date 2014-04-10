@@ -11,7 +11,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9u9-zc-q9c" userLabel="Container View">
-                    <rect key="frame" x="5" y="5" width="186" height="186"/>
+                    <rect key="frame" x="0.0" y="0.0" width="196" height="196"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Upm-sg-YFN">
@@ -51,10 +51,10 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="9u9-zc-q9c" secondAttribute="trailing" constant="5" id="4Dy-qh-hWL"/>
-                <constraint firstItem="9u9-zc-q9c" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="G4e-T1-6yM"/>
-                <constraint firstItem="9u9-zc-q9c" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="gmd-lP-mm1"/>
-                <constraint firstAttribute="bottom" secondItem="9u9-zc-q9c" secondAttribute="bottom" constant="5" id="vLp-sp-CgJ"/>
+                <constraint firstAttribute="trailing" secondItem="9u9-zc-q9c" secondAttribute="trailing" id="4Dy-qh-hWL"/>
+                <constraint firstItem="9u9-zc-q9c" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="G4e-T1-6yM"/>
+                <constraint firstItem="9u9-zc-q9c" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="gmd-lP-mm1"/>
+                <constraint firstAttribute="bottom" secondItem="9u9-zc-q9c" secondAttribute="bottom" id="vLp-sp-CgJ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

@@ -30,11 +30,11 @@
 #pragma mark - Private methods
 - (void)configureAppearance {
     
-    self.elementContainer.layer.cornerRadius = 6.f;
-    self.elementContainer.layer.shadowOffset = CGSizeMake(1.0, 1.0);
-    self.elementContainer.layer.shadowOpacity = 0.5f;
-    self.elementContainer.layer.shadowColor = [UIColor colorWithWhite:0.5f alpha:1.0].CGColor;
-    self.elementContainer.layer.shadowRadius = 2.f;
+//    self.elementContainer.layer.cornerRadius = 6.f;
+//    self.elementContainer.layer.shadowOffset = CGSizeMake(1.0, 1.0);
+//    self.elementContainer.layer.shadowOpacity = 0.5f;
+//    self.elementContainer.layer.shadowColor = [UIColor colorWithWhite:0.5f alpha:1.0].CGColor;
+//    self.elementContainer.layer.shadowRadius = 2.f;
 }
 
 @end

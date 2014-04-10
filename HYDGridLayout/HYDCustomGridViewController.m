@@ -80,11 +80,11 @@
 }
 
 - (CGFloat)minInterItemSpacingHorizontalForCustomGridLayout:(HYDCustomGridLayout *)layout {
-    return 0.f;
+    return 5.f;
 }
 
 - (UIEdgeInsets)marginForCustomGridLayout:(HYDCustomGridLayout *)layout {
-    return UIEdgeInsetsMake(0.f, 0.f, 0.f, 0.f);
+    return UIEdgeInsetsMake(10.f, 10.f, 10.f, 10.f);
 }
 
 - (id)customGridLayout:(HYDCustomGridLayout *)layout gridCellIdentifierForItemAtIndexPath:(NSIndexPath *)indexPath {
