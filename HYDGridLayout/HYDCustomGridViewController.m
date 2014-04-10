@@ -127,7 +127,6 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    NSLog(@"number of elements: %d", [self.elements count]);
     return [self.elements count];
 }
 

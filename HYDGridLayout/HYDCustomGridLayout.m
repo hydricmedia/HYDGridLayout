@@ -51,7 +51,6 @@
     return _layoutInfo;
 }
 
-
 - (HYDGrid *)grid {
     if (!_grid) {
         _grid = [[HYDGrid alloc] initWithNumberOfColumns:[self numberOfColumns] gridWidth:[self gridWidth] gridMargins:[self margins] gridSpacing:[self interItemSpacing]];

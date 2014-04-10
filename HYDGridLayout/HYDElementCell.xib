@@ -15,7 +15,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Upm-sg-YFN">
-                            <rect key="frame" x="8" y="43" width="88" height="70"/>
+                            <rect key="frame" x="15" y="47" width="88" height="70"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="60"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -24,14 +24,14 @@
                             <size key="shadowOffset" width="-1" height="-1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Magnesium" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uab-VE-jBz">
-                            <rect key="frame" x="8" y="121" width="80" height="19"/>
+                            <rect key="frame" x="15" y="125" width="80" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XJ-qL-nDU">
-                            <rect key="frame" x="8" y="8" width="25" height="27"/>
+                            <rect key="frame" x="15" y="12" width="25" height="27"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="22"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -41,8 +41,8 @@
                     <color key="backgroundColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
                     <constraints>
                         <constraint firstItem="Uab-VE-jBz" firstAttribute="leading" secondItem="Upm-sg-YFN" secondAttribute="leading" id="2Ll-hd-sBm"/>
-                        <constraint firstItem="8XJ-qL-nDU" firstAttribute="leading" secondItem="9u9-zc-q9c" secondAttribute="leading" constant="8" id="N9A-eG-GkJ"/>
-                        <constraint firstItem="8XJ-qL-nDU" firstAttribute="top" secondItem="9u9-zc-q9c" secondAttribute="top" constant="8" id="f6k-JK-8H6"/>
+                        <constraint firstItem="8XJ-qL-nDU" firstAttribute="leading" secondItem="9u9-zc-q9c" secondAttribute="leading" constant="15" id="N9A-eG-GkJ"/>
+                        <constraint firstItem="8XJ-qL-nDU" firstAttribute="top" secondItem="9u9-zc-q9c" secondAttribute="top" constant="12" id="f6k-JK-8H6"/>
                         <constraint firstItem="8XJ-qL-nDU" firstAttribute="leading" secondItem="Upm-sg-YFN" secondAttribute="leading" id="jJz-Lj-EFV"/>
                         <constraint firstItem="Uab-VE-jBz" firstAttribute="top" secondItem="Upm-sg-YFN" secondAttribute="bottom" constant="8" id="xKI-K2-yhk"/>
                         <constraint firstItem="Upm-sg-YFN" firstAttribute="top" secondItem="8XJ-qL-nDU" secondAttribute="bottom" constant="8" id="xfk-8z-uOF"/>
