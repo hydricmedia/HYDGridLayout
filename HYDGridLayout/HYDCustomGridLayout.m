@@ -93,14 +93,12 @@
         
         attributes.frame = CGRectMake(origin.x, origin.y, size.width, size.height);
         
-        NSLog(@"IndexPath: %@, Frame: %@", indexPath, NSStringFromCGRect(attributes.frame));
-        
         self.layoutInfo[indexPath] = attributes;
     }
 }
 
-- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
-{
+- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
+    
     NSMutableArray *attributesArray = [NSMutableArray new];
     
     [self.layoutInfo enumerateKeysAndObjectsUsingBlock:^(NSIndexPath *indexPath, UICollectionViewLayoutAttributes *attributes, BOOL *stop) {
@@ -112,15 +110,14 @@
     return attributesArray;
 }
 
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     return self.layoutInfo[indexPath];
 }
 
 - (CGSize)collectionViewContentSize {
     
-    CGFloat height = ([self.grid numberOfRowsInGrid] * self.grid.columnWidth) + self.grid.margins.top + self.grid.margins.bottom;
-    return CGSizeMake(self.grid.gridWidth, height);
+    return [self.grid gridSize];
 }
 
 #pragma mark - Helpers

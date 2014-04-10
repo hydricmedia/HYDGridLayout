@@ -29,6 +29,7 @@ typedef NSNumber HYDRowNumber;
 @property (nonatomic, assign, readonly) NSUInteger numberOfColumns;
 @property (nonatomic, assign, readonly) HYDGridInterItemSpacing spacing;
 
+- (CGSize)gridSize;
 - (NSUInteger)numberOfRowsInGrid;
 - (CGPoint)originForItemAtGridRef:(HYDGridRef)gridRef;
 - (CGSize)sizeForItemSpanningX:(NSUInteger)spanX andSpanningY:(NSUInteger)spanY;

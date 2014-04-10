@@ -34,6 +34,14 @@
 
 #pragma mark - Public methods
 
+- (CGSize)gridSize {
+    
+    NSUInteger numberOfRows = [self numberOfRowsInGrid];
+    CGFloat height = (numberOfRows * self.cellContentWidth) + ((numberOfRows - 1) * self.spacing.ySpacing) + self.margins.top + self.margins.bottom;
+
+    return CGSizeMake(self.gridWidth, height);
+}
+
 - (NSUInteger)numberOfRowsInGrid {
     return [self.grid count];
 }

@@ -129,7 +129,6 @@
         NSArray *lineArray = [elementsLine componentsSeparatedByString:@","];
         HYDElement *element = [[HYDElement alloc] initWithLineArray:lineArray];
         [self.elements addObject:element];
-        NSLog(@"%@", [element descriptionWithSpanXandY]);
     }];
 }
 
