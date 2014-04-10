@@ -49,7 +49,7 @@
 - (CGPoint)originForItemAtGridRef:(HYDGridRef)gridRef
 {
     CGFloat xPosition = ((gridRef.x -1) * self.cellContentWidth) + ((gridRef.x -1) * self.spacing.xSpacing) + self.margins.left;
-    CGFloat yPosition = ((gridRef.y -1) * self.columnWidth) + self.margins.top;
+    CGFloat yPosition = ((gridRef.y -1) * self.cellContentWidth) + ((gridRef.y -1) * self.spacing.ySpacing) + self.margins.top;
     
     return CGPointMake(xPosition, yPosition);
 }
