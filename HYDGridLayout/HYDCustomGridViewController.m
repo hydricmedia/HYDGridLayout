@@ -14,6 +14,7 @@
 @interface HYDCustomGridViewController () <UICollectionViewDataSource, UICollectionViewDelegate, HYDCustomGridLayoutDelegate>
 
 @property (nonatomic, strong) NSMutableArray *elements;
+@property (nonatomic, strong) NSMutableArray *elementsMaster;
 @property (nonatomic, weak) IBOutlet HYDCustomGridLayout *layout;
 
 @end
@@ -37,10 +38,87 @@
 - (NSMutableArray *)elements
 {
     if (!_elements) {
-        _elements = [NSMutableArray array];
+        _elements = [NSMutableArray arrayWithArray:self.elementsMaster];
     }
     
     return _elements;
+}
+
+- (NSMutableArray *)elementsMaster
+{
+    if (!_elementsMaster) {
+        _elementsMaster = [NSMutableArray array];
+    }
+    
+    return _elementsMaster;
+}
+
+#pragma mark - Actions
+- (IBAction)orderChanged:(UISegmentedControl *)sender {
+    
+    if (sender.selectedSegmentIndex == 0) {
+        NSSortDescriptor *numberSort = [NSSortDescriptor sortDescriptorWithKey:@"elementNo" ascending:YES];
+        [self.elements sortUsingDescriptors:@[numberSort]];
+    }
+    
+    if (sender.selectedSegmentIndex == 1) {
+        NSSortDescriptor *nameSort = [NSSortDescriptor sortDescriptorWithKey:@"elementName" ascending:YES];
+        [self.elements sortUsingDescriptors:@[nameSort]];
+    }
+
+    [self.collectionView performBatchUpdates:^{
+        [self.collectionView reloadItemsAtIndexPaths:[self.collectionView indexPathsForVisibleItems]];
+    } completion:nil];
+}
+
+- (IBAction)nameFilterChanged:(UISegmentedControl *)sender {
+    
+    NSArray *indexPaths = [NSArray new];
+    
+    if (sender.selectedSegmentIndex == 0) {
+        indexPaths = [self indexPathsOfElementsToAdd];
+        self.elements = nil;
+        [self.collectionView performBatchUpdates:^{
+            [self.collectionView insertItemsAtIndexPaths:indexPaths];
+        } completion:nil];
+    }
+    
+    if (sender.selectedSegmentIndex == 1) {
+        indexPaths = [self indexPathsOfElementsToRemove];
+        [self.elements filterUsingPredicate:[NSPredicate predicateWithFormat:@"elementName ENDSWITH 'ium'"]];
+        
+        [self.collectionView performBatchUpdates:^{
+            [self.collectionView deleteItemsAtIndexPaths:indexPaths];
+        } completion:nil];
+    }
+}
+
+- (NSArray *)indexPathsOfElementsToAdd {
+    
+    NSMutableArray *indexPaths = [NSMutableArray new];
+    NSArray *elementsRemoved = [self.elementsMaster filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(elementName ENDSWITH 'ium')"]];
+    
+    [self.elementsMaster enumerateObjectsUsingBlock:^(HYDElement *element, NSUInteger idx, BOOL *stop) {
+        if ([elementsRemoved containsObject:element]) {
+            [indexPaths addObject:[NSIndexPath indexPathForItem:idx inSection:0]];
+        }
+    }];
+    
+    return indexPaths;
+}
+
+- (NSArray *)indexPathsOfElementsToRemove {
+    
+    NSMutableArray *indexPaths = [NSMutableArray new];
+    NSArray *elementsForRemoval = [self.elementsMaster filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(elementName ENDSWITH 'ium')"]];
+    
+    [self.elements enumerateObjectsUsingBlock:^(HYDElement *element, NSUInteger idx, BOOL *stop) {
+        if ([elementsForRemoval containsObject:element]) {
+            [indexPaths addObject:[NSIndexPath indexPathForItem:idx inSection:0]];
+        }
+    }];
+    
+    return indexPaths;
 }
 
 #pragma mark - UICollectionViewDataSource conformance
@@ -110,6 +188,7 @@
     
     HYDElement *element = self.elements[indexPath.item];
     
+    cell.elementName = element.elementName;
     cell.elementNumberLabel.text = [NSString stringWithFormat:@"%d", element.elementNo];
     cell.elementNameLabel.text = element.elementName;
     cell.elementSymbolLabel.text = element.elementSymbol;
@@ -128,7 +207,7 @@
     [fileArray enumerateObjectsUsingBlock:^(NSString *elementsLine, NSUInteger idx, BOOL *stop) {
         NSArray *lineArray = [elementsLine componentsSeparatedByString:@","];
         HYDElement *element = [[HYDElement alloc] initWithLineArray:lineArray];
-        [self.elements addObject:element];
+        [self.elementsMaster addObject:element];
     }];
 }
 

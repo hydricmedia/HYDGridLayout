@@ -10,6 +10,7 @@
 
 @interface HYDElementCell : UICollectionViewCell
 
+@property (nonatomic, strong) NSString *elementName;
 @property (nonatomic, weak, readonly) UILabel *elementSymbolLabel;
 @property (nonatomic, weak, readonly) UILabel *elementNameLabel;
 @property (nonatomic, weak, readonly) UILabel *elementNumberLabel;

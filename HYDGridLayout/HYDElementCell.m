@@ -38,4 +38,17 @@
     self.elementContainer.layer.shadowRadius = 2.f;
 }
 
+- (void)setElementName:(NSString *)elementName {
+    
+    _elementName = elementName;
+    
+    NSRange range = [elementName rangeOfString:@"ium"];
+    
+    if (range.length == 0) {
+        self.elementContainer.backgroundColor = [UIColor colorWithWhite:0.5f alpha:1.f];
+    } else {
+        self.elementContainer.backgroundColor = [UIColor blueColor];
+    }
+}
+
 @end

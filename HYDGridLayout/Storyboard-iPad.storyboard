@@ -26,18 +26,40 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="NSP-LH-LoW">
-                                    <rect key="frame" x="302" y="3" width="123" height="29"/>
+                                    <rect key="frame" x="0.0" y="3" width="141" height="29"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="141" id="auK-kq-N0s"/>
+                                    </constraints>
                                     <segments>
-                                        <segment title="First"/>
-                                        <segment title="Second"/>
+                                        <segment title="Number"/>
+                                        <segment title="Name"/>
                                     </segments>
+                                    <connections>
+                                        <action selector="orderChanged:" destination="uCz-0e-XUE" eventType="valueChanged" id="EGN-Pw-c70"/>
+                                    </connections>
+                                </segmentedControl>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4Hw-7n-pSl">
+                                    <rect key="frame" x="149" y="3" width="159" height="29"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="159" id="MGj-Fg-1oF"/>
+                                    </constraints>
+                                    <segments>
+                                        <segment title="Full name"/>
+                                        <segment title="-ium name"/>
+                                    </segments>
+                                    <connections>
+                                        <action selector="nameFilterChanged:" destination="uCz-0e-XUE" eventType="valueChanged" id="69t-Vg-9t1"/>
+                                    </connections>
                                 </segmentedControl>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstItem="4Hw-7n-pSl" firstAttribute="leading" secondItem="NSP-LH-LoW" secondAttribute="trailing" constant="8" id="382-hb-Wbi"/>
+                                <constraint firstItem="NSP-LH-LoW" firstAttribute="leading" secondItem="KXA-ba-XhQ" secondAttribute="leading" id="6fZ-aw-7zY"/>
                                 <constraint firstItem="NSP-LH-LoW" firstAttribute="top" secondItem="KXA-ba-XhQ" secondAttribute="top" constant="3" id="GKt-hS-vll"/>
-                                <constraint firstItem="NSP-LH-LoW" firstAttribute="centerX" secondItem="KXA-ba-XhQ" secondAttribute="centerX" id="dAB-yQ-45J"/>
+                                <constraint firstItem="4Hw-7n-pSl" firstAttribute="top" secondItem="NSP-LH-LoW" secondAttribute="top" id="V67-hf-8GM"/>
                             </constraints>
                         </view>
                     </navigationItem>
