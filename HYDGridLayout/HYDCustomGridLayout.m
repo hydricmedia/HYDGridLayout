@@ -70,6 +70,7 @@
 - (void)prepareLayout
 {
     self.grid = nil;
+    self.layoutInfo = nil;
 
     NSIndexPath *indexPath;
     NSInteger itemCount = [self.collectionView numberOfItemsInSection:0];

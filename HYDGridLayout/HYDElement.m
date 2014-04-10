@@ -48,12 +48,21 @@
 
 #pragma mark - Public methods
 - (NSUInteger)itemSpanX {
+    
+    if (self.elementNo %16 == 0) {
+        return 4;
+    }
+    
     return (self.elementNo %7 %2) == 1 ? 2 : 1;
 }
 
 - (NSUInteger)itemSpanY {
+    
+    if (self.elementNo %23 == 0) {
+        return 3;
+    }
+    
     return (self.elementNo %3 == 0) ? 2 : 1;
-//    return 1;
 }
 
 @end

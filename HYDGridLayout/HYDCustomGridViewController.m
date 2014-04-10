@@ -78,6 +78,7 @@
     if (sender.selectedSegmentIndex == 0) {
         indexPaths = [self indexPathsOfElementsToAdd];
         self.elements = nil;
+        [self.collectionViewLayout invalidateLayout];
         [self.collectionView performBatchUpdates:^{
             [self.collectionView insertItemsAtIndexPaths:indexPaths];
         } completion:nil];
@@ -86,7 +87,6 @@
     if (sender.selectedSegmentIndex == 1) {
         indexPaths = [self indexPathsOfElementsToRemove];
         [self.elements filterUsingPredicate:[NSPredicate predicateWithFormat:@"elementName ENDSWITH 'ium'"]];
-        
         [self.collectionView performBatchUpdates:^{
             [self.collectionView deleteItemsAtIndexPaths:indexPaths];
         } completion:nil];
@@ -127,6 +127,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    NSLog(@"number of elements: %d", [self.elements count]);
     return [self.elements count];
 }
 
