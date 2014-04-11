@@ -65,7 +65,9 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="filterSegmentedControl" destination="4Hw-7n-pSl" id="l2r-D7-g1K"/>
                         <outlet property="layout" destination="DRG-b2-T0G" id="Mgl-om-JrP"/>
+                        <outlet property="sortSegmentedControl" destination="NSP-LH-LoW" id="v0V-Op-xld"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qey-We-SNV" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -16,6 +16,8 @@
 @property (nonatomic, strong) NSMutableArray *elements;
 @property (nonatomic, strong) NSMutableArray *elementsMaster;
 @property (nonatomic, weak) IBOutlet HYDCustomGridLayout *layout;
+@property (nonatomic, weak) IBOutlet UISegmentedControl *sortSegmentedControl;
+@property (nonatomic, weak) IBOutlet UISegmentedControl *filterSegmentedControl;
 
 @end
 
@@ -38,7 +40,12 @@
 - (NSMutableArray *)elements
 {
     if (!_elements) {
-        _elements = [NSMutableArray arrayWithArray:self.elementsMaster];
+        
+        if (self.sortSegmentedControl.selectedSegmentIndex == 1) {
+            _elements = [NSMutableArray arrayWithArray:[self.elementsMaster.reverseObjectEnumerator allObjects]];
+        } else {
+            _elements = [NSMutableArray arrayWithArray:self.elementsMaster];
+        }
     }
     
     return _elements;
@@ -78,7 +85,6 @@
     if (sender.selectedSegmentIndex == 0) {
         indexPaths = [self indexPathsOfElementsToAdd];
         self.elements = nil;
-        [self.collectionViewLayout invalidateLayout];
         [self.collectionView performBatchUpdates:^{
             [self.collectionView insertItemsAtIndexPaths:indexPaths];
         } completion:nil];
@@ -98,9 +104,12 @@
     NSMutableArray *indexPaths = [NSMutableArray new];
     NSArray *elementsRemoved = [self.elementsMaster filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(elementName ENDSWITH 'ium')"]];
     
+    BOOL reverseOrder = (self.sortSegmentedControl.selectedSegmentIndex == 1);
+    
     [self.elementsMaster enumerateObjectsUsingBlock:^(HYDElement *element, NSUInteger idx, BOOL *stop) {
         if ([elementsRemoved containsObject:element]) {
-            [indexPaths addObject:[NSIndexPath indexPathForItem:idx inSection:0]];
+            NSUInteger index = (reverseOrder) ? ([self.elementsMaster count] -1) :  idx;
+            [indexPaths addObject:[NSIndexPath indexPathForItem:index inSection:0]];
         }
     }];
     

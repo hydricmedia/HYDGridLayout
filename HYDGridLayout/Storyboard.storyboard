@@ -64,7 +64,9 @@
                         </view>
                     </navigationItem>
                     <connections>
+                        <outlet property="filterSegmentedControl" destination="Ybd-cp-RhQ" id="mZQ-vd-vZd"/>
                         <outlet property="layout" destination="ddA-bs-KEx" id="z7F-bG-ECx"/>
+                        <outlet property="sortSegmentedControl" destination="dbq-3h-GnC" id="cyy-Zo-875"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ijx-DU-5UB" userLabel="First Responder" sceneMemberID="firstResponder"/>
