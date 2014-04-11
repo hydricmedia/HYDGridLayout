@@ -143,7 +143,7 @@
 - (NSUInteger)numberOfColumnsForCustomGridLayout:(HYDCustomGridLayout *)layout
 {
     if (IPHONE) {
-        return 1;
+        return (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) ? 1 : 2;
     } else {
         return (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) ? 4 : 5;
     }

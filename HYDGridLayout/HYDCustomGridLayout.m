@@ -82,6 +82,10 @@
         NSUInteger spanX = [self spanXForItemAtIndexPath:indexPath];
         NSUInteger spanY = [self spanYForItemAtIndexPath:indexPath];
 
+        if (spanX > self.grid.numberOfColumns) {
+            spanX = self.grid.numberOfColumns;
+        }
+        
         HYDGridRef gridRef = {0, 0};
         
         while (gridRef.x == 0 && gridRef.y == 0) {
